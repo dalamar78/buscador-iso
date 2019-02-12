@@ -1,0 +1,519 @@
+
+<html>
+    <head>
+        <title>Bootstrap Multiselect</title>
+        <meta name="robots" content="noindex, nofollow" />
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+
+        <link rel="stylesheet" href="docs/css/bootstrap-3.3.2.min.css" type="text/css">
+        <link rel="stylesheet" href="docs/css/bootstrap-example.min.css" type="text/css">
+        <link rel="stylesheet" href="docs/css/prettify.min.css" type="text/css">
+
+        <script type="text/javascript" src="docs/js/jquery-2.1.3.min.js"></script>
+        <script type="text/javascript" src="docs/js/bootstrap-3.3.2.min.js"></script>
+        <script type="text/javascript" src="docs/js/prettify.min.js"></script>
+
+        <link rel="stylesheet" href="dist/css/bootstrap-multiselect.css" type="text/css">
+        <script type="text/javascript" src="dist/js/bootstrap-multiselect.js"></script>
+
+        <script type="text/javascript">
+        $(document).ready(function() {
+            window.prettyPrint() && prettyPrint();
+       
+		// cargamos el array con los options de 2 y 3 nivel
+		var globalClone1 = $('#ison1 options');
+		var globalClone2 = $('#ison2 optgroup');
+		var globalClone3 = $('#ison3 optgroup');    
+		
+	
+		//definimos el 1 multiselect
+		$('#ison1').multiselect({
+          enableFiltering: true,
+		  enableCaseInsensitiveFiltering: true,
+          onChange: function (option, checked, select) {
+        	//Store the list of selections in an array
+		var selections = $('#ison1').val();
+		console.log(selections);
+	
+			$('#ison2').html(globalClone2);
+         
+		if (!selections){
+			$('#ison1').val("");
+			$('#ison2').val("");
+			$('#ison3').val("");
+			$('#ison2 optgroup').each(function(){$(this).remove();});
+			$('#ison3 optgroup').each(function(){$(this).remove();});
+			$('#ison3').html(globalClone2);
+			$('#ison3').multiselect('rebuild');
+		}else{
+			$('#ison2 optgroup').each(function(){       	
+				if( selections.includes(String($(this).data('group'))) == false ){
+            	//Remove the option from the DOM
+            	$(this).remove();
+				}
+          });
+		}
+
+          //Rebuild, per the multiselect docs basically reinit the select. Nice we don't have to destroy and recreate. 
+          $('#ison2').multiselect('rebuild');
+        },
+        });
+
+		$('#ison2').multiselect({
+            enableFiltering: true,
+			enableCaseInsensitiveFiltering: true,
+			enableCollapsibleOptGroups: true,
+			          onChange: function (option, checked, select) {
+        	//Store the list of selections in an array
+		var selections = $('#ison2').val();
+		console.log(selections);
+          //Reset the queue to it's starting list so we can loop
+		$('#ison3').html(globalClone3);
+          //Look at each option
+		if (!selections){
+			$('#ison2').val("");
+			$('#ison3').val("");
+			
+			$('#ison3 optgroup').each(function(){$(this).remove();});
+		}else{
+			$('#ison3 optgroup').each(function(){       	
+				if( selections.includes(String($(this).data('group'))) == false ){
+            	//Remove the option from the DOM
+            	$(this).remove();
+				}
+          });
+		}
+		  
+          //Rebuild, per the multiselect docs basically reinit the select. Nice we don't have to destroy and recreate. 
+          $('#ison3').multiselect('rebuild');
+        },
+          
+        });
+		$('#ison3').multiselect({
+            enableFiltering: true,
+			enableCaseInsensitiveFiltering: true,
+			enableCollapsibleOptGroups: true,
+            
+        });
+		 $('#ison2 optgroup').each(function(){$(this).remove();});
+		$('#ison2').multiselect('rebuild');
+		$('#ison3 optgroup').each(function(){$(this).remove();});
+		$('#ison3').multiselect('rebuild');
+
+		   });
+        </script>
+		 <style type="text/css">
+	#ison2 > li. { display:none;}
+	#ison3 > li. { display:none;}
+  </style>
+    </head>
+    <body data-group-spy="scroll" data-group-target="#affix">
+
+
+<form name="busquedaProaPorISO" id="busquedaProaPorISO" action="/sipa_01/prod_apoy/busq_prod/busq_prod_iso/index.htm" method="post" onsubmit="return false;validarCamposBusquedaPorISO(form, 'false')">
+
+			<fieldset>
+				<legend class="oculto">Búsqueda por ISO de producto</legend>
+
+				<div class="select-multi">
+					<label for="ison1">Clasificación ISO de nivel 1: </label>
+					
+					<select multiple="multiple" name="ison1" id="ison1" size="200">
+						<option value="040000">04 - Productos de apoyo para medir, apoyar, entrenar o sustituir funciones corporales</option>
+						<option value="050000">05 - Productos de apoyo para la capacitación y el entrenamiento/aprendizaje de habilidades</option>
+						<option value="060000">06 - Productos de apoyo unidos al cuerpo para dar soporte a funciones neuromusculoesqueléticas o relacionadas con el movimiento (órtesis) y sustitución de estructuras anatómicas (prótesis)</option>
+						<option value="090000">09 - Productos de apoyo para actividades de cuidado personal y participación en el cuidado personal</option>
+						<option value="120000">12 - Productos de apoyo para las actividades y la participación relacionadas con la movilidad personal y el transporte</option>
+						<option value="150000">15 - Productos de apoyo para las actividades domésticas y la participación en la vida doméstica</option>
+						<option value="180000">18 - Mobiliario, accesorios y otros productos de apoyo para facilitar actividades en entornos hechos por seres humanos tanto en interiores como en exteriores</option>
+						<option value="220000">22 - Productos de apoyo para la comunicación y la gestión de la información</option>
+						<option value="240000">24 - Productos de apoyo para controlar, transportar, mover y manipular objetos y dispositivos</option>
+						<option value="270000">27 - Productos de apoyo para controlar, adaptar o medir elementos de entornos físicos</option>
+						<option value="280000">28 - Mobiliario y elementos de mobiliario para lugares de trabajo</option>
+						<option value="300000">30 - Productos de apoyo para el esparcimiento y el ocio</option>
+					</select>
+				</div>
+				
+				<div class="select-multi">
+					<label for="ison2">Clasificación ISO de nivel 2: </label>
+					
+			
+			<select multiple="multiple" name="ison2" id="ison2" size="200">
+					
+						
+						<optgroup  data-group="040000" label="04 - Productos de apoyo para medir, apoyar, entrenar o sustituir funciones corporales">
+								<option data-group="040000"   value="040300" >0403 - Productos de apoyo para respiración</option>
+								<option data-group="040000"   value="040600" >0406 - Productos de apoyo para terapia circulatoria</option>
+								<option data-group="040000"   value="040800" >0408 - Productos de apoyo para estimular el control y la conciencia corporal</option>
+								<option data-group="040000"   value="040900" >0409 - Productos de apoyo para fototerapia</option>
+								<option data-group="040000"   value="041500" >0415 - Productos de apoyo para diálisis</option>
+								<option data-group="040000"   value="041900" >0419 - Productos de apoyo para administrar medicamentos</option>
+								<option data-group="040000"   value="042200" >0422 - Equipo de esterilización</option>
+								<option data-group="040000"   value="042400" >0424 - Equipos y materiales para pruebas físicas, fisiológicas y bioquímicas</option>
+								<option data-group="040000"   value="042500" >0425 - Equipos y materiales para evaluación cognitiva</option>
+								<option data-group="040000"   value="042600" >0426 - Productos de apoyo para terapia cognitiva</option>
+								<option data-group="040000"   value="042700" >0427 - Estimuladores</option>
+								<option data-group="040000"     value="043000" >0430 - Productos de apoyo para el tratamiento por medio de frío o de calor</option>
+								<option data-group="040000"     value="043300" >0433 - Productos de apoyo destinados a preservar la integridad de los tejidos</option>
+								<option data-group="040000"      value="043600" >0436 - Productos de apoyo para el entrenamiento de la percepción</option>
+								<option data-group="040000" value="044500"   >0445 - Productos de apoyo para tracción de la columna vertebral</option>
+								<option data-group="040000"  value="044800" >0448 - Equipo para el entrenamiento del movimiento, la fuerza y el equilibrio</option>
+								<option data-group="040000"   value="044900" >0449 - Productos para el cuidado de heridas</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="050000" id="050000" label="05 - Productos de apoyo para la capacitación y el entrenamiento/aprendizaje de habilidades">
+								<option data-group="050000"  value="050300">0503 - Productos de apoyo para terapia y entrenamiento/aprendizaje de la comunicación</option>
+								<option data-group="050000"   value="050600">0506 - Productos de apoyo para el entrenamiento/aprendizaje en comunicación alternativa y aumentativa</option>
+								<option data-group="050000"   value="050900">0509 - Productos de apoyo para el entrenamiento/aprendizaje de la continencia</option>
+								<option data-group="050000"   value="051200">0512 - Productos de apoyo para el entrenamiento de las capacidades cognitivas</option>
+								<option data-group="050000"   value="051500">0515 - Productos de apoyo para el entrenamiento/aprendizaje de funciones básicas</option>
+								<option data-group="050000"   value="051800">0518 - Productos de apoyo para la formación en temas de educación</option>
+								<option data-group="050000"   value="052400">0524 - Productos de apoyo para la formación artística</option>
+								<option data-group="050000"   value="052700">0527 - Productos de apoyo para el entrenamiento/aprendizaje de habilidades sociales</option>
+								<option data-group="050000"   value="053000">0530 - Productos de apoyo para el entrenamiento en el control de dispositivos de entrada y manipulación de productos y mercancías</option>
+								<option data-group="050000"   value="053300">0533 - Productos de apoyo para el entrenamiento en actividades de la vida diaria</option>
+								<option data-group="050000"   value="053600">0536 - Productos de apoyo para el entrenamiento en cambiar y mantener la postura corporal</option>
+						</optgroup>
+					
+					
+						
+						<optgroup  data-group="090000"  id="090000" label="09 - Productos de apoyo para actividades de cuidado personal y participación en el cuidado personal">
+								<option data-group="090000"   value="090300">0903 - Ropa y calzado</option>
+								<option data-group="090000"    value="090600">0906 - roductos de apoyo usados sobre el cuerpo para protegerlo</option>
+								<option data-group="090000"    value="090700">0907 - Productos de apoyo para la estabilización del cuerpo</option>
+								<option data-group="090000"    value="090900">0909 - Productos de apoyo para vestirse y desvestirse</option>
+								<option data-group="090000"    value="091200">0912 - Productos de apoyo para funciones de aseo (evacuación)</option>
+								<option data-group="090000"    value="091500">0915 - Productos de apoyo para traqueotomía</option>
+								<option data-group="090000"    value="091800">0918 - Productos de apoyo para ostomía</option>
+								<option data-group="090000"    value="092100">0921 - Productos para la protección y limpieza de la piel</option>
+								<option data-group="090000"    value="092400">0924 - Canalizadores de orina</option>
+								<option data-group="090000"    value="092700">0927 - Productos de apoyo para recogida de orina y de heces</option>
+								<option data-group="090000"    value="093000">0930 - Productos de apoyo para la absorción de orina y heces</option>
+								<option data-group="090000"    value="093100">0931 - Productos de apoyo para prevenir escapes involuntarios de orina o de heces</option>
+								<option data-group="090000"    value="093200">0932 - Productos de apoyo para la gestión de la menstruación</option>
+								<option data-group="090000"    value="093300">0933 - Productos de apoyo para lavarse, bañarse y ducharse</option>
+								<option data-group="090000"    value="093600">0936 - Productos de apoyo para manicura y pedicura</option>
+								<option data-group="090000"    value="093900">0939 - Productos de apoyo para el cuidado del cabello</option>
+								<option data-group="090000"    value="094200">0942 - Productos de apoyo para el cuidado dental</option>
+								<option data-group="090000"    value="094500">0945 - Productos de apoyo para el cuidado facial</option>
+								<option  data-group="090000"   value="095400">0954 - Productos de apoyo para actividades sexuales</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="120000" id="120000" label="12 - Productos de apoyo para las actividades y la participación relacionadas con la movilidad personal y el transporte">
+								<option  data-group="120000"  value="120300">1203 - Productos de apoyo para caminar, manejados por un brazo</option>
+								<option  data-group="120000"   value="120600">1206 - Productos de apoyo para caminar manejados por ambos brazos</option>
+								<option  data-group="120000"   value="120700">1207 - Accesorios de los productos de apoyo para caminar</option>
+								<option  data-group="120000"   value="121000">1210 - Coches, furgonetas y camiones</option>
+								<option  data-group="120000"   value="121100">1211 - Vehículos para el transporte colectivo</option>
+								<option  data-group="120000"   value="121200">1212 - Accesorios y adaptaciones para vehículos</option>
+								<option   data-group="120000"  value="121600">1216 - Motocicletas y ciclomotores</option>
+								<option  data-group="120000"   value="121700">1217 - Diversos vehículos motorizados</option>
+								<option  data-group="120000"   value="121800">1218 - Ciclos</option>
+								<option   data-group="120000"  value="122200">1222 - Sillas de ruedas manuales</option>
+								<option   data-group="120000"  value="122300">1223 - Sillas de ruedas motorizadas</option>
+								<option   data-group="120000"  value="122400">1224 - Accesorios para sillas de ruedas</option>
+								<option   data-group="120000"  value="122700">1227 - Diversos vehículos de propulsión humana</option>
+								<option   data-group="120000"  value="123100">1231 - Productos de apoyo para el cambio de postura corporal</option>
+								<option   data-group="120000"  value="123600">1236 - Productos de apoyo para la elevación de personas</option>
+								<option   data-group="120000"  value="123900">1239 - Productos de apoyo para orientación</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="150000" id="150000" label="15 - Productos de apoyo para las actividades domésticas y la participación en la vida doméstica">
+								<option   data-group="150000"  value="150300">1503 - Productos de apoyo para preparar comida y bebida</option>
+								<option  data-group="150000"   value="150600">1506 - Productos de apoyo para lavar la vajilla</option>
+								<option   data-group="150000"  value="150900">1509 - Productos de apoyo para comer y beber</option>
+								<option   data-group="150000"  value="151200">1512 - Productos de apoyo para la limpieza de la casa</option>
+								<option   data-group="150000"  value="151500">1515 - Productos de apoyo para confeccionar y mantener tejidos para uso doméstico</option>
+								<option   data-group="150000"  value="151800">1518 - Productos de apoyo para jardinería y cuidado del césped para uso doméstico</option>
+						</optgroup>
+					
+						
+						<optgroup data-group="180000"  id="180000" label="18 - Mobiliario, accesorios y otros productos de apoyo para facilitar actividades en entornos hechos por seres humanos tanto en interiores como en exteriores">
+								<option  data-group="180000"   value="180300">1803 - Mesas</option>
+								<option   data-group="180000"  value="180600">1806 - Equipos para iluminación</option>
+								<option   data-group="180000"  value="180900">1809 - Mobiliario para sentarse</option>
+								<option   data-group="180000"  value="181000">1810 - Accesorios de mobiliario para sentarse</option>
+								<option  data-group="180000"   value="181200">1812 - Camas y equipo de cama</option>
+								<option   data-group="180000"  value="181500">1815 - Productos de apoyo para ajustar la altura del mobiliario</option>
+								<option  data-group="180000"   value="181800">1818 - Pasamanos y barras de apoyo</option>
+								<option   data-group="180000"  value="182100">1821 - Dispositivos para abrir y cerrar verjas, puertas, ventanas y cortinas</option>
+								<option   data-group="180000"  value="182400">1824 - Elementos de construcción para viviendas y otros locales</option>
+								<option   data-group="180000"  value="183000">1830 - Productos de apoyo para accesibilidad vertical</option>
+								<option   data-group="180000"  value="183300">1833 - Equipos de seguridad para viviendas y otros locales</option>
+								<option   data-group="180000"  value="183600">1836 - Muebles para almacenamiento</option>
+						</optgroup>
+					
+						
+
+			</select>
+</div>
+				
+				<div class="select-multi">
+					<label for="ison3">Clasificación ISO de nivel 3: </label>
+					
+		<select multiple="multiple" name="ison3" id="ison3" size="801">
+					
+						
+						<optgroup data-group="040300"   id="040300" label="0403 - Productos de apoyo para respiración">
+								<option  data-group="040300"    value="040303">040303 - Dispositivos para el pretratamiento del aire inhalado</option>
+								<option  data-group="040300"    "value="040306">040306 - Equipo de inhalación</option>
+								<option  data-group="040300"    value="040312">040312 - Respiradores</option>
+								<option  data-group="040300"     "value="040318">040318 - Equipos de oxígeno</option>
+								<option  data-group="040300"     value="040321">040321 - Aspiradores</option>
+								<option  data-group="040300"     value="040324">040324 - Bancos y cojines para respiración</option>
+								<option  data-group="040300"     value="040327">040327 - Aparatos para entrenamiento de los músculos respiratorios</option>
+								<option  data-group="040300"     value="040330">040330 - Aparatos para medir la respiración</option>
+								<option  data-group="040300"     value="040333">040333 - Órtesis de úvula</option>
+						</optgroup>
+					
+						
+						<optgroup data-group="040600" id="040600" label="0406 - Productos de apoyo para terapia circulatoria">
+								<option  data-group="040600"     value="040606">040606 - Medias anti-edema para brazos, piernas y otras partes del cuerpo</option>
+								<option  data-group="040600"     value="040609">040609 - Prendas rellenas de aire y unidades de compresión para problemas circulatorios</option>
+						</optgroup>
+					
+					
+						
+						<optgroup    data-group="040900"    id="040900" label="0409 - Productos de apoyo para fototerapia">
+								<option  data-group="040900"     value="040903">040903 - Lámparas de rayos ultravioletas (UVA)</option>
+								<option  data-group="040900"     value="040906">040906 - Lámparas SUP (fototerapia selectiva a base de rayos ultravioletas) y lámparas de rayos UVB</option>
+								<option  data-group="040900"     value="040909">040909 - Gafas de protección para fototerapia</option>
+								<option  data-group="040900"     value="040912">040912 - Lámparas para terapia con luz diurna</option>
+						</optgroup>
+					
+						
+						<optgroup data-group="041500" id="041500" label="0415 - Productos de apoyo para diálisis">
+								<option value="041503">041503 - Unidades para hemodiálisis (HD)</option>
+								<option value="041506">041506 - Unidades para diálisis peritoneal continua ambulatoria (DPCA)</option>
+								<option value="041512">041512 - Conjunto de instrumentos para diálisis</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="041900" id="041900" label="0419 - Productos de apoyo para administrar medicamentos">
+								<option value="041904">041904 - Productos de apoyo para dosificar, dispensar o modificar la medicación para asegurar su correcta utilización</option>
+								<option value="041906">041906 - Pistolas de inyección</option>
+								<option value="041909">041909 - Jeringuillas desechables, de un solo uso</option>
+								<option value="041912">041912 - Jeringuillas esterilizables, multiuso</option>
+								<option value="041915">041915 - Agujas de inyección, de un solo uso</option>
+								<option value="041918">041918 - Agujas de inyección multiuso o de uso permanente</option>
+								<option value="041924">041924 - Bombas de infusión</option>
+								<option value="041927">041927 - Sistemas de infusión no eléctricos</option>
+								<option value="041930">041930 - Productos de apoyo para la introducción de supositorios</option>
+								<option value="041933">041933 - Accesorios para productos de apoyo para administrar medicamentos</option>
+						</optgroup>
+					
+					
+						
+						<optgroup  data-group="042400"  id="042400" label="0424 - Equipos y materiales para pruebas físicas, fisiológicas y bioquímicas">
+								<option value="042403">042403 - Equipo para análisis de orina</option>
+								<option value="042406">042406 - Equipos y medios para el cultivo de bacterias</option>
+								<option value="042409">042409 - Medidores de presión sanguínea (esfigmomanómetros)</option>
+								<option value="042412">042412 - Dispositivos, equipos y materiales para análisis de sangre</option>
+								<option value="042415">042415 - Equipo para electrocardiogramas (ECG)</option>
+								<option value="042418">042418 - Materiales para evaluación y control físico</option>
+								<option value="042421">042421 - Productos de apoyo para medir propiedades físicas y fisiológicas del cuerpo humano</option>
+								<option value="042424">042424 - Termómetros corporales</option>
+								<option value="042427">042427 - Básculas para personas</option>
+								<option value="042430">042430 - Productos de apoyo para medir la condición de la piel</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="042500"  id="042500" label="0425 - Equipos y materiales para evaluación cognitiva">
+								<option value="042503">042503 - Pruebas de lenguaje y materiales de evaluación</option>
+								<option value="042506">042506 - Pruebas psicológicas y materiales de evaluación</option>
+						</optgroup>
+					
+					
+						
+						<optgroup  data-group="042700"  id="042700" label="0427 - Estimuladores">
+								<option value="042706">042706 - Estimuladores para aliviar el dolor</option>
+								<option value="042709">042709 - Estimuladores musculares no utilizados como ortesis</option>
+								<option value="042712">042712 - Vibradores</option>
+								<option value="042715">042715 - Estimuladores de sonido</option>
+								<option value="042718">042718 - Productos de apoyo para estimular los sentidos y la sensibilidad</option>
+								<option value="042721">042721 - Productos de apoyo para estimular el desarrollo celular</option>
+								<option value="042724">042724 - Estimuladores utilizados en conexión con implantes</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="043000"  id="043000" label="0430 - Productos de apoyo para el tratamiento por medio de frío o de calor">
+								<option value="043003">0433 - Productos de apoyo para el tratamiento por medio de calor</option>
+								<option value="043006">0436 - Productos de apoyo para el tratamiento por medio de frío</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="043300"  id="043300" label="0433 - Productos de apoyo destinados a preservar la integridad de los tejidos">
+								<option value="043303">043303 - Cojines de asiento y protectores destinados a preservar la integridad de los tejidos</option>
+								<option value="043304">043304 - Respaldos y almohadillas para la espalda para preservar la integridad de los tejidos</option>
+								<option value="043306">043306 - Productos de apoyo para preservar la integridad de los tejidos en posición tumbada</option>
+								<option value="043309">043309 - Equipo especial para la integridad de los tejidos</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="043600"  id="043600" label="0436 - Productos de apoyo para el entrenamiento de la percepción">
+								<option value="043603">043603 - Productos de apoyo para el entrenamiento de la discriminación y de la asociación perceptivas</option>
+								<option value="043606">043606 - Productos de apoyo para el entrenamiento de la coordinación perceptiva</option>
+								<option value="043609">043609 - Productos de apoyo para el entrenamiento de la integración sensorial</option>
+						</optgroup>
+					
+					
+						
+						<optgroup  data-group="044800"  id="044800" label="0448 - Equipo para el entrenamiento del movimiento, la fuerza y el equilibrio">
+								<option value="044803">044803 - Ciclos para ejercicio y cicloergómetros</option>
+								<option value="044807">044807 - Productos de apoyo para ejercitar el patrón de marcha</option>
+								<option value="044812">044812 - Aparatos para ejercitar los dedos y la mano</option>
+								<option value="044815">044815 - Aparatos para ejercicio de brazos, para ejercicio del tronco y para ejercicios de las piernas</option>
+								<option value="044818">044818 - Brazaletes lastrados</option>
+								<option value="044824">044824 - Dispositivos de bio-retroalimentación para el entrenamiento del movimiento, la fuerza y el equilibrio</option>
+								<option value="044827">044827 - Productos de apoyo para posicionar el cuerpo durante la terapia</option>
+								<option value="044830">044830 - Dispositivos para ejercicio de la mandíbula</option>
+						</optgroup>
+					
+					
+						
+						<optgroup  data-group="050300"  id="050300" label="0503 - Productos de apoyo para terapia y entrenamiento/aprendizaje de la comunicación">
+								<option value="050303">050303 - Productos de apoyo para el entrenamiento/aprendizaje de la lengua hablada</option>
+								<option value="050306">050306 - Materiales de entrenamiento/aprendizaje para desarrollar la capacidad lectora</option>
+								<option value="050309">050309 - Materiales de entrenamiento/aprendizaje para desarrollar habilidades de escritura</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="050600"  id="050600" label="0506 - Productos de apoyo para el entrenamiento/aprendizaje en comunicación alternativa y aumentativa">
+								<option value="050603">050603 - Productos de apoyo para el entrenamiento/aprendizaje de la dactilología</option>
+								<option value="050606">050606 - Productos de apoyo para el entrenamiento/aprendizaje de la lengua de signos</option>
+								<option value="050609">050609 - Productos de apoyo para el entrenamiento/aprendizaje de la lectura labial</option>
+								<option value="050612">050612 - Productos de apoyo para el entrenamiento/ aprendizaje del lenguaje cued speech</option>
+								<option value="050615">050615 - Productos de apoyo para el entrenamiento/aprendizaje del sistema Braille</option>
+								<option value="050618">050618 - Productos de apoyo para el entrenamiento/aprendizaje de otros símbolos táctiles excluyendo Braille</option>
+								<option value="050621">050621 - Productos de apoyo para el entrenamiento/aprendizaje de iconos y símbolos</option>
+								<option value="050624">050624 - Productos de apoyo para el entrenamiento/aprendizaje de comunicación Bliss</option>
+								<option value="050627">050627 - Productos de apoyo para entrenamiento/aprendizaje en comunicación con imágenes y dibujos</option>
+								<option value="050630">050630 - Productos de apoyo para entrenamiento/aprendizaje del método Morse</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="050900"  id="050900" label="0509 - Productos de apoyo para el entrenamiento/aprendizaje de la continencia">
+								<option value="050903">050903 - Alarmas de incontinencia</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="051200"  id="051200" label="0512 - Productos de apoyo para el entrenamiento de las capacidades cognitivas">
+								<option value="051203">051203 - Productos de apoyo para el entrenamiento de la memoria</option>
+								<option value="051206">051206 - Productos de apoyo para el entrenamiento de la secuenciación</option>
+								<option value="051209">051209 - Productos de apoyo para el entrenamiento de la atención</option>
+								<option value="051212">051212 - Productos de apoyo para el entrenamiento/aprendizaje en el desarrollo de conceptos</option>
+								<option value="051215">051215 - Productos de apoyo para el entrenamiento/aprendizaje en clasificación</option>
+								<option value="051218">051218 - Productos de apoyo para el entrenamiento/aprendizaje en la resolución de problemas</option>
+								<option value="051221">051221 - Productos de apoyo para el entrenamiento/aprendizaje en razonamiento inductivo/deductivo</option>
+								<option value="051224">051224 - Productos de apoyo para el desarrollo de la comprensión de causa y efecto</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="051500"  id="051500" label="0515 - Productos de apoyo para el entrenamiento/aprendizaje de funciones básicas">
+								<option value="051503">051503 - Productos de apoyo para el entrenamiento/aprendizaje en operaciones de cálculo elemental</option>
+								<option value="051506">051506 - Productos de apoyo para la codificación y decodificación del lenguaje escrito</option>
+								<option value="051509">051509 - Productos de apoyo para el entrenamiento/aprendizaje en la comprensión de las nociones de tiempo</option>
+								<option value="051512">051512 - Productos de apoyo para el entrenamiento/aprendizaje en la noción del dinero</option>
+								<option value="051515">051515 - Productos de apoyo para el entrenamiento/aprendizaje en la comprensión de las medidas de tamaño y capacidad</option>
+								<option value="051518">051518 - Productos de apoyo para el aprendizaje de conocimientos geométricos básicos</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="051800"  id="051800" label="0518 - Productos de apoyo para la formación en temas de educación">
+								<option value="051803">051803 - Productos de apoyo para el aprendizaje de la lengua materna</option>
+								<option value="051806">051806 - Productos de apoyo para el aprendizaje de una lengua extranjera</option>
+								<option value="051809">051809 - Productos de apoyo para la formación en temas de humanidades</option>
+								<option value="051812">051812 - Productos de apoyo para la formación en ciencias sociales</option>
+								<option value="051815">051815 - Productos de apoyo para la formación en ciencias matemáticas y físicas</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="052400"  id="052400" label="0524 - Productos de apoyo para la formación artística">
+								<option value="052403">052403 - Productos de apoyo para la formación musical</option>
+								<option value="052406">052406 - Productos de apoyo para el entrenamiento/aprendizaje de habilidades de dibujo y pintura</option>
+								<option value="052409">052409 - Productos de apoyo para la formación teatral y la danza</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="052700"  id="052700" label="0527 - Productos de apoyo para el entrenamiento/aprendizaje de habilidades sociales">
+								<option value="052703">052703 - Productos de apoyo para el entrenamiento/aprendizaje en actividades recreativas</option>
+								<option value="052706">052706 - Productos de apoyo para el entrenamiento/aprendizaje del comportamiento social</option>
+								<option value="052709">052709 - Productos para el entrenamiento/aprendizaje de la seguridad personal</option>
+								<option value="052712">052712 - Productos de apoyo para aprender a viajar</option>
+						</optgroup>
+					
+						
+						<optgroup   data-group="053000" id="053000" label="0530 - Productos de apoyo para el entrenamiento en el control de dispositivos de entrada y manipulación de productos y mercancías">
+								<option value="053003">0533 - Productos de apoyo para el entrenamiento en el control del ratón</option>
+								<option value="053006">0536 - Productos de apoyo para el entrenamiento en el control de joysticks (palanca de mando proporcional)</option>
+								<option value="053009">0539 - Productos de apoyo para el entrenamiento en el control de interruptores/conmutadores</option>
+								<option value="053012">053012 - Productos de apoyo para el entrenamiento en el uso del teclado</option>
+								<option value="053015">053015 - Productos de apoyo para el entrenamiento en técnicas de selección</option>
+						</optgroup>
+					
+						
+						<optgroup   data-group="053300" id="053300" label="0533 - Productos de apoyo para el entrenamiento en actividades de la vida diaria">
+								<option value="053303">053303 - Productos de apoyo para el entrenamiento en el uso de ortesis y prótesis</option>
+								<option value="053306">053306 - Productos de apoyo para el entrenamiento en actividades personales cotidianas</option>
+								<option value="053309">053309 - Productos de apoyo para el entrenamiento de la movilidad personal</option>
+								<option value="053312">053312 - Productos de apoyo para el entrenamiento en tareas domésticas</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="053600"  id="053600" label="0536 - Productos de apoyo para el entrenamiento en cambiar y mantener la postura corporal">
+								<option value="053603">053603 - Estructuras para estar de pie y soportes para permanecer de pie</option>
+								<option value="053606">053606 - Planos inclinables</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="090300"  id="090300" label="0903 - Ropa y calzado">
+								<option value="090305">090305 - Prendas de exterior</option>
+								<option value="090309">090309 - Prendas para la cabeza</option>
+								<option value="090312">090312 - Guantes y mitones</option>
+								<option value="090315">090315 - Blusas y camisas</option>
+								<option value="090318">090318 - Chaquetas y pantalones</option>
+								<option value="090321">090321 - Faldas y vestidos</option>
+								<option value="090324">090324 - Ropa interior</option>
+								<option value="090327">090327 - Medias y calcetines</option>
+								<option value="090330">090330 - Ropa para dormir</option>
+								<option value="090333">090333 - Trajes de baño</option>
+								<option value="090339">090339 - Baberos y delantales</option>
+								<option value="090342">090342 - Zapatos y botas</option>
+								<option value="090345">090345 - Productos de apoyo antideslizantes para zapatos y botas</option>
+								<option value="090348">090348 - Dispositivos de cierre y abotonadura</option>
+								<option value="090351">090351 - Corbatas con características especiales para sujetarse</option>
+						</optgroup>
+					
+						
+						<optgroup  data-group="090600"  id="090600" label="0906 - roductos de apoyo usados sobre el cuerpo para protegerlo">
+								<option value="090603">090603 - Productos de apoyo para la protección de la cabeza</option>
+								<option value="090606">090606 - Productos de apoyo para la protección de los ojos y la cara</option>
+								<option value="090609">090609 - Productos de apoyo para la protección del oído y de la audición</option>
+								<option value="090612">090612 - Productos de apoyo para la protección del brazo y del codo</option>
+								<option value="090615">090615 - Productos de apoyo para la protección de la mano</option>
+								<option value="090618">090618 - Productos de apoyo para la protección de la pierna o de la rodilla</option>
+								<option value="090621">090621 - Productos de apoyo para la protección del pie, el talón o los dedos de los pies</option>
+								<option value="090624">090624 - Productos de apoyo para la protección del tronco o de todo el cuerpo</option>
+								<option value="090627">090627 - Productos de apoyo para la protección de las vías respiratorias</option>
+						</optgroup>
+					
+
+					
+					
+					
+			</select>
+</div>
+
+			</fieldset>
+	
+
+			
+			
+			
+		</form>
+		
+		    </body>
+</html>
