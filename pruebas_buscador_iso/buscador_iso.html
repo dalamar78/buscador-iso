@@ -20,32 +20,38 @@
         $(document).ready(function() {
             window.prettyPrint() && prettyPrint();
        
-		// cargamos el array con los options de 2 y 3 nivel
+	// cargamos el array con los options de 1 ,2 y 3 nivel
 		var globalClone1 = $('#ison1 options');
 		var globalClone2 = $('#ison2 optgroup');
 		var globalClone3 = $('#ison3 optgroup');    
 		
 	
-		//definimos el 1 multiselect
+	//definimos el 1 multiselect
 		$('#ison1').multiselect({
-          enableFiltering: true,
-		  enableCaseInsensitiveFiltering: true,
-          onChange: function (option, checked, select) {
-        	//Store the list of selections in an array
-		var selections = $('#ison1').val();
-		console.log(selections);
-	
+			enableFiltering: true,
+			enableCaseInsensitiveFiltering: true,
+			buttonWidth: '80%',
+			nonSelectedText: 'Elija una o varias opciónes ISO de nivel 1',
+			numberDisplayed: 2,
+			nSelectedText: ' Seleccionados',
+			filterPlaceholder: 'Filtro...',
+			onChange: function (option, checked, select) {
+    //grabamos la lista input seleccionados de ison1 en un  array
+			var selections = $('#ison1').val();
+	// cargamos el todos los input de ison2
 			$('#ison2').html(globalClone2);
          
 		if (!selections){
+	// si no hay ninguno seleccionado de 1 nivel  vaciamos  los value de todos	los eliminamos 
 			$('#ison1').val("");
 			$('#ison2').val("");
 			$('#ison3').val("");
 			$('#ison2 optgroup').each(function(){$(this).remove();});
 			$('#ison3 optgroup').each(function(){$(this).remove();});
-			$('#ison3').html(globalClone2);
+			//$('#ison3').html(globalClone3);
 			$('#ison3').multiselect('rebuild');
 		}else{
+	// hay alguno seleccionado	eliminamos del nivel 2 que no coincidan con los seleccionados
 			$('#ison2 optgroup').each(function(){       	
 				if( selections.includes(String($(this).data('group'))) == false ){
             	//Remove the option from the DOM
@@ -58,54 +64,68 @@
           $('#ison2').multiselect('rebuild');
         },
         });
-
+	//definimos el 2 multiselect
 		$('#ison2').multiselect({
             enableFiltering: true,
 			enableCaseInsensitiveFiltering: true,
 			enableCollapsibleOptGroups: true,
-			          onChange: function (option, checked, select) {
-        	//Store the list of selections in an array
+			buttonWidth: '80%',
+			nonSelectedText: 'Elija una o varias opciónes ISO de nivel 2',
+			numberDisplayed: 2,
+			nSelectedText: ' Seleccionados',
+			filterPlaceholder: 'Filtro...',
+			disableIfEmpty: true,
+			
+			onChange: function (option, checked, select) {
+    //grabamos la lista input seleccionados de ison2 en un  array
 		var selections = $('#ison2').val();
-		console.log(selections);
-          //Reset the queue to it's starting list so we can loop
 		$('#ison3').html(globalClone3);
-          //Look at each option
+      
 		if (!selections){
+	// si no hay ninguno seleccionado de 2 nivel  vaciamos  los value de  nivel 2 y 3 y los eliminamos 	
 			$('#ison2').val("");
 			$('#ison3').val("");
-			
+	// eliminamos todo contenido del select  de nivel 3		
 			$('#ison3 optgroup').each(function(){$(this).remove();});
 		}else{
+	// hay alguno seleccionado	eliminamos del nivel 3 que no coincidan con los seleccionados	
 			$('#ison3 optgroup').each(function(){       	
 				if( selections.includes(String($(this).data('group'))) == false ){
-            	//Remove the option from the DOM
-            	$(this).remove();
+					$(this).remove();
 				}
           });
 		}
 		  
-          //Rebuild, per the multiselect docs basically reinit the select. Nice we don't have to destroy and recreate. 
+    //Rebuild, reiniciamos el select. 
           $('#ison3').multiselect('rebuild');
         },
           
         });
+	//definimos el 3 multiselect
 		$('#ison3').multiselect({
             enableFiltering: true,
 			enableCaseInsensitiveFiltering: true,
 			enableCollapsibleOptGroups: true,
+			buttonWidth: '80%',
+			nonSelectedText: 'Elija una o varias opciónes ISO de nivel 3',
+			numberDisplayed: 2,
+			nSelectedText: ' Seleccionados',
+			filterPlaceholder: 'Filtro...',
+			disableIfEmpty: true,
             
         });
-		 $('#ison2 optgroup').each(function(){$(this).remove();});
+	// al iniciar borramos todo, antes hemos almacenado su contenido para clonarlo en los onchange de 1 y 2 nivel
+		$('#ison2 optgroup').each(function(){$(this).remove();});
 		$('#ison2').multiselect('rebuild');
 		$('#ison3 optgroup').each(function(){$(this).remove();});
 		$('#ison3').multiselect('rebuild');
 
 		   });
         </script>
-		 <style type="text/css">
+<style type="text/css">
 	#ison2 > li. { display:none;}
 	#ison3 > li. { display:none;}
-  </style>
+ </style>
     </head>
     <body data-group-spy="scroll" data-group-target="#affix">
 
